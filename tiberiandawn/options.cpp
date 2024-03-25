@@ -560,6 +560,7 @@ void OptionsClass::Load_Settings(void)
     INIClass ini;
     ini.Load(file);
 
+#ifndef REMASTER_BUILD
     /*
     **	Read in the Options values
     */
@@ -787,6 +788,7 @@ void OptionsClass::Load_Settings(void)
     if (Obfuscate(workbuf) == PARM_SCROLLING) {
         Special.IsScrollMod = true;
     }
+#endif
 }
 
 /***********************************************************************************************

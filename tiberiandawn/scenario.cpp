@@ -246,6 +246,10 @@ bool Read_Scenario(char* root)
 {
     CCDebugString("C&C95 - In Read_Scenario.\n");
     Clear_Scenario();
+#ifdef REMASTER_BUILD
+    Options.Load_Settings();
+    Options.Save_Settings();
+#endif
     ScenarioInit++;
     if (Read_Scenario_Ini(root)) {
 
