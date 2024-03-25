@@ -163,11 +163,11 @@ if(BUILD_REMASTERTD)
         # Generate windows version info.
         generate_product_version(
             REMASTERTD_RC
-            NAME "Vanilla Conquer TiberianDawn DLL"
-            BUNDLE "Vanilla Conquer"
+            NAME "Mocha Conquer TiberianDawn DLL"
+            BUNDLE "Mocha Conquer"
             VERSION_MAJOR 1
             VERSION_MINOR 7
-            COMPANY_NAME "Vanilla Conquer"
+            COMPANY_NAME "Mocha Conquer"
             COMPANY_COPYRIGHT "Based on code released under GPLv3 by EA"
             ORIGINAL_FILENAME "TiberianDawn.dll"
             RCFILE_PREFIX "RemasterTD"
@@ -187,9 +187,9 @@ if(BUILD_REMASTERTD)
     set_target_properties(TiberianDawn PROPERTIES PREFIX "")
 
     add_custom_command(TARGET TiberianDawn POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources/remaster_mods/Vanilla_TD ${CMAKE_BINARY_DIR}/Vanilla_TD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/Vanilla_TD/Data
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:TiberianDawn> ${CMAKE_BINARY_DIR}/Vanilla_TD/Data/
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources/remaster_mods/Vanilla_TD ${CMAKE_BINARY_DIR}/Mocha_TD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/Mocha_TD/Data
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:TiberianDawn> ${CMAKE_BINARY_DIR}/Mocha_TD/Data/
     )
 endif()
 
@@ -202,13 +202,13 @@ if(BUILD_VANILLATD)
         # Generate windows version info.
         generate_product_version(
             VANILLATD_RC
-            NAME "VanillaTD"
-            BUNDLE "Vanilla Conquer"
+            NAME "MochaTD"
+            BUNDLE "Mocha Conquer"
             VERSION_MAJOR 1
             VERSION_MINOR 0
-            COMPANY_NAME "Vanilla Conquer"
+            COMPANY_NAME "Mocha Conquer"
             COMPANY_COPYRIGHT "Based on code released under GPLv3 by EA"
-            ORIGINAL_FILENAME "vanillatd.exe"
+            ORIGINAL_FILENAME "mochatd.exe"
             RCFILE_PREFIX "VanillaTD"
             ICON "${VANILLATD_ICON}"
         )
@@ -221,8 +221,8 @@ if(BUILD_VANILLATD)
         set_source_files_properties(${VANILLATD_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
         set_target_properties(VanillaTD PROPERTIES
             MACOSX_BUNDLE True
-            MACOSX_BUNDLE_GUI_IDENTIFIER com.vanilla-conquer.vanillatd
-            MACOSX_BUNDLE_BUNDLE_NAME VanillaTD
+            MACOSX_BUNDLE_GUI_IDENTIFIER com.mocha-conquer.mochatd
+            MACOSX_BUNDLE_BUNDLE_NAME MochaTD
             MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
             MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
             MACOSX_BUNDLE_COPYRIGHT "Based on code released under GPLv3 by EA"
@@ -233,7 +233,7 @@ if(BUILD_VANILLATD)
     target_compile_definitions(VanillaTD PUBLIC $<$<CONFIG:Debug>:_DEBUG> ${VANILLA_DEFS} MEGAMAPS)
     target_include_directories(VanillaTD PUBLIC ${CMAKE_SOURCE_DIR} .)
     target_link_libraries(VanillaTD commonv ${VANILLA_LIBS} ${STATIC_LIBS})
-    set_target_properties(VanillaTD PROPERTIES OUTPUT_NAME vanillatd)
+    set_target_properties(VanillaTD PROPERTIES OUTPUT_NAME mochatd)
     if(MAP_EDITORTD)
         target_compile_definitions(VanillaTD PUBLIC INTERNAL_VERSION)
     endif()

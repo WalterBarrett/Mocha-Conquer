@@ -29,11 +29,11 @@ jobs:
         echo "$Env:TEMP\ninja" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         ninja --version
         
-    - name: Configure Vanilla Conquer
+    - name: Configure Mocha Conquer
       run: |
         cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_REMASTERTD=ON -DBUILD_REMASTERRA=ON -DBUILD_VANILLATD=OFF -DBUILD_VANILLARA=OFF -DNETWORKING=OFF -B build
         
-    - name: Build Vanilla Conquer
+    - name: Build Mocha Conquer
       run: |
         cmake --build build --config RelWithDebInfo
 
@@ -41,19 +41,19 @@ jobs:
       shell: bash
       run: |
         mkdir artifact
-        7z a artifact/vanilla-conquer-remasterdll-msvc-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/RedAlert.dll ./build/TiberianDawn.dll
-        7z a artifact/vanilla-conquer-remasterdll-msvc-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/RedAlert.pdb ./build/TiberianDawn.pdb
-        7z a artifact/vanilla-ra-remaster-mod-msvc-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/Vanilla_RA
-        7z a artifact/vanilla-td-remaster-mod-msvc-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/Vanilla_TD
+        7z a artifact/mocha-conquer-remasterdll-msvc-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/RedAlert.dll ./build/TiberianDawn.dll
+        7z a artifact/mocha-conquer-remasterdll-msvc-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/RedAlert.pdb ./build/TiberianDawn.pdb
+        7z a artifact/mocha-ra-remaster-mod-msvc-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/Mocha_RA
+        7z a artifact/mocha-td-remaster-mod-msvc-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/Mocha_TD
         
     - name: Upload artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: vanilla-conquer-remaster-msvc
+        name: mocha-conquer-remaster-msvc
         path: artifact
 
     - name: Upload development release
-      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/vanilla' }}
+      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/primary' }}
       uses: softprops/action-gh-release@v1
       with:
         name: Development Build
@@ -73,7 +73,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  vanilla_win_msvc:
+  mocha_win_msvc:
     runs-on: windows-2019
     strategy:
       matrix:
@@ -120,11 +120,11 @@ jobs:
         ninja --version
         Rename-Item $Env:TEMP\openal-soft-1.21.0-bin\bin\${{ steps.vars.outputs.oal_path }}\soft_oal.dll OpenAL32.dll
         
-    - name: Configure Vanilla Conquer
+    - name: Configure Mocha Conquer
       run: |
         cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TOOLS=ON -DBUILD_TESTS=ON -DSDL2=ON "-DSDL2_ROOT_DIR=$($Env:TEMP)\SDL2-2.0.12" -DOPENAL=ON "-DOPENAL_ROOT=C:\Program Files (x86)\OpenAL 1.1 SDK" -DBUILD_REMASTERTD=OFF -DBUILD_REMASTERRA=OFF -DMAP_EDITORTD=ON -DMAP_EDITORRA=ON "-DImageMagick_magick_EXECUTABLE=$($(Get-Command magick.exe).Source)" -DImageMagick_magick_FOUND=TRUE -B build
 
-    - name: Build Vanilla Conquer
+    - name: Build Mocha Conquer
       run: |
         cmake --build build --config RelWithDebInfo
 
@@ -138,17 +138,17 @@ jobs:
       shell: bash
       run: |
         mkdir artifact
-        7z a artifact/vanilla-conquer-win-msvc-${{ steps.vars.outputs.arc_path }}-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/vanillatd.exe ./build/vanillara.exe ./build/vanillamix.exe $TEMP/SDL2-2.0.12/lib/${{ steps.vars.outputs.sdl_path }}/SDL2.dll $TEMP/openal-soft-1.21.0-bin/bin/${{ steps.vars.outputs.oal_path }}/OpenAL32.dll
-        7z a artifact/vanilla-conquer-win-msvc-${{ steps.vars.outputs.arc_path }}-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/vanillatd.pdb ./build/vanillara.pdb ./build/vanillamix.pdb
+        7z a artifact/mocha-conquer-win-msvc-${{ steps.vars.outputs.arc_path }}-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/mochatd.exe ./build/mochara.exe ./build/mochamix.exe $TEMP/SDL2-2.0.12/lib/${{ steps.vars.outputs.sdl_path }}/SDL2.dll $TEMP/openal-soft-1.21.0-bin/bin/${{ steps.vars.outputs.oal_path }}/OpenAL32.dll
+        7z a artifact/mocha-conquer-win-msvc-${{ steps.vars.outputs.arc_path }}-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/mochatd.pdb ./build/mochara.pdb ./build/mochamix.pdb
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: vanilla-conquer-win-msvc-${{ steps.vars.outputs.arc_path }}
+        name: mocha-conquer-win-msvc-${{ steps.vars.outputs.arc_path }}
         path: artifact
         
     - name: Upload development release
-      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/vanilla' }}
+      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/primary' }}
       uses: softprops/action-gh-release@v1
       with:
         name: Development Build

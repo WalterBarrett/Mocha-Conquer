@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: Create Development release
-      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/vanilla' }}
+      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/primary' }}
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -17,7 +17,7 @@ jobs:
         prerelease: true
         title: "Development Build"
         
-  vanilla-linux:
+  mocha-linux:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -51,7 +51,7 @@ jobs:
         sudo apt-get update -qq > /dev/null
         sudo apt-get install -qq -y clang-format-14 libsdl2-dev libopenal-dev > /dev/null
 
-    - name: Configure Vanilla Conquer
+    - name: Configure Mocha Conquer
       env:
           CC: ${{ steps.vars.outputs.cc }}
           CXX: ${{ steps.vars.outputs.cxx }}
@@ -64,18 +64,18 @@ jobs:
         cmake --build build --target format
         git diff --exit-code
         
-    - name: Build Vanilla Conquer
+    - name: Build Mocha Conquer
       run: |
         cmake --build build -- -j 4
-        cp ./build/vanillatd ./build/vanillatd.dbg
-        cp ./build/vanillara ./build/vanillara.dbg
-        cp ./build/vanillamix ./build/vanillamix.dbg
-        strip --strip-all ./build/vanillatd
-        strip --strip-all ./build/vanillara
-        strip --strip-all ./build/vanillamix
-        objcopy --add-gnu-debuglink=./build/vanillatd.dbg ./build/vanillatd
-        objcopy --add-gnu-debuglink=./build/vanillara.dbg ./build/vanillara
-        objcopy --add-gnu-debuglink=./build/vanillamix.dbg ./build/vanillamix
+        cp ./build/mochatd ./build/mochatd.dbg
+        cp ./build/mochara ./build/mochara.dbg
+        cp ./build/mochamix ./build/mochamix.dbg
+        strip --strip-all ./build/mochatd
+        strip --strip-all ./build/mochara
+        strip --strip-all ./build/mochamix
+        objcopy --add-gnu-debuglink=./build/mochatd.dbg ./build/mochatd
+        objcopy --add-gnu-debuglink=./build/mochara.dbg ./build/mochara
+        objcopy --add-gnu-debuglink=./build/mochamix.dbg ./build/mochamix
 
     - name: Run unit tests
       run: |
@@ -85,17 +85,17 @@ jobs:
     - name: Create archives
       run: |
         mkdir artifact
-        7z a artifact/vanilla-conquer-linux-${{ matrix.platform }}-x86_64-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/vanillatd ./build/vanillara ./build/vanillamix
-        7z a artifact/vanilla-conquer-linux-${{ matrix.platform }}-x86_64-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/vanillatd.dbg ./build/vanillara.dbg ./build/vanillamix.dbg
+        7z a artifact/mocha-conquer-linux-${{ matrix.platform }}-x86_64-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/mochatd ./build/mochara ./build/mochamix
+        7z a artifact/mocha-conquer-linux-${{ matrix.platform }}-x86_64-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/mochatd.dbg ./build/mochara.dbg ./build/mochamix.dbg
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: vanilla-conquer-linux-${{ matrix.platform }}-x86_64
+        name: mocha-conquer-linux-${{ matrix.platform }}-x86_64
         path: artifact
         
     - name: Upload development release
-      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/vanilla' }}
+      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/primary' }}
       uses: softprops/action-gh-release@v1
       with:
         name: Development Build

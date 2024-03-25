@@ -5,7 +5,7 @@ on:
   push:
 
 jobs:
-  vanilla-macos:
+  mocha-macos:
     runs-on: macos-12
     steps:
     - uses: actions/checkout@v3.3.0
@@ -57,38 +57,38 @@ jobs:
       run: |
         sudo cp -R ~/macports/local /opt
 
-    - name: Configure Vanilla Conquer
+    - name: Configure Mocha Conquer
       run: |
         export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
         cmake -G Ninja -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DMAP_EDITORTD=ON -DMAP_EDITORRA=ON -DBUILD_TOOLS=ON -B build
         
-    - name: Build Vanilla Conquer
+    - name: Build Mocha Conquer
       run: |
         export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
         cmake --build build
-        dsymutil build/vanillatd.app/Contents/MacOS/vanillatd -o build/vanillatd.dSYM
-        dsymutil build/vanillara.app/Contents/MacOS/vanillara -o build/vanillara.dSYM
-        dsymutil build/vanillamix -o build/vanillamix.dSYM
-        strip -Sx build/vanillatd.app/Contents/MacOS/vanillatd
-        strip -Sx build/vanillara.app/Contents/MacOS/vanillara
-        strip -Sx build/vanillamix
-        dylibbundler --create-dir --bundle-deps --overwrite-files --dest-dir ./build/vanillatd.app/Contents/libs --fix-file build/vanillatd.app/Contents/MacOS/vanillatd
-        dylibbundler --create-dir --bundle-deps --overwrite-files --dest-dir ./build/vanillara.app/Contents/libs --fix-file build/vanillara.app/Contents/MacOS/vanillara
+        dsymutil build/mochatd.app/Contents/MacOS/mochatd -o build/mochatd.dSYM
+        dsymutil build/mochara.app/Contents/MacOS/mochara -o build/mochara.dSYM
+        dsymutil build/mochamix -o build/mochamix.dSYM
+        strip -Sx build/mochatd.app/Contents/MacOS/mochatd
+        strip -Sx build/mochara.app/Contents/MacOS/mochara
+        strip -Sx build/mochamix
+        dylibbundler --create-dir --bundle-deps --overwrite-files --dest-dir ./build/mochatd.app/Contents/libs --fix-file build/mochatd.app/Contents/MacOS/mochatd
+        dylibbundler --create-dir --bundle-deps --overwrite-files --dest-dir ./build/mochara.app/Contents/libs --fix-file build/mochara.app/Contents/MacOS/mochara
 
     - name: Create archives
       run: |
         mkdir artifact
-        7z a artifact/vanilla-conquer-macos-clang-universal2-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/vanillatd.app ./build/vanillara.app ./build/vanillamix
-        7z a artifact/vanilla-conquer-macos-clang-universal2-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/vanillatd.dSYM ./build/vanillara.dSYM ./build/vanillamix.dSYM
+        7z a artifact/mocha-conquer-macos-clang-universal2-${{ steps.gitinfo.outputs.sha_short }}.zip ./build/mochatd.app ./build/mochara.app ./build/mochamix
+        7z a artifact/mocha-conquer-macos-clang-universal2-${{ steps.gitinfo.outputs.sha_short }}-debug.zip ./build/mochatd.dSYM ./build/mochara.dSYM ./build/mochamix.dSYM
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: vanilla-conquer-macos-clang-universal2
+        name: mocha-conquer-macos-clang-universal2
         path: artifact
         
     - name: Upload development release
-      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/vanilla' }}
+      if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/primary' }}
       uses: softprops/action-gh-release@v1
       with:
         name: Development Build

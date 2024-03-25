@@ -187,11 +187,11 @@ if(BUILD_REMASTERRA)
         # Generate windows version info.
         generate_product_version(
             REMASTERRA_RC
-            NAME "Vanilla Conquer RedAlert DLL"
-            BUNDLE "Vanilla Conquer"
+            NAME "Mocha Conquer RedAlert DLL"
+            BUNDLE "Mocha Conquer"
             VERSION_MAJOR 3
             VERSION_MINOR 3
-            COMPANY_NAME "Vanilla Conquer"
+            COMPANY_NAME "Mocha Conquer"
             COMPANY_COPYRIGHT "Based on code released under GPLv3 by EA"
             ORIGINAL_FILENAME "RedAlert.dll"
             RCFILE_PREFIX "RemasterRA"
@@ -211,9 +211,9 @@ if(BUILD_REMASTERRA)
     set_target_properties(RedAlert PROPERTIES PREFIX "")
 
     add_custom_command(TARGET RedAlert POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources/remaster_mods/Vanilla_RA ${CMAKE_BINARY_DIR}/Vanilla_RA
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/Vanilla_RA/Data
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:RedAlert> ${CMAKE_BINARY_DIR}/Vanilla_RA/Data/
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources/remaster_mods/Vanilla_RA ${CMAKE_BINARY_DIR}/Mocha_RA
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/Mocha_RA/Data
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:RedAlert> ${CMAKE_BINARY_DIR}/Mocha_RA/Data/
     )
 endif()
 
@@ -226,13 +226,13 @@ if(BUILD_VANILLARA)
         # Generate windows version info.
         generate_product_version(
             VANILLARA_RC
-            NAME "VanillaRA"
-            BUNDLE "Vanilla Conquer"
+            NAME "MochaRA"
+            BUNDLE "Mocha Conquer"
             VERSION_MAJOR 1
             VERSION_MINOR 0
-            COMPANY_NAME "Vanilla Conquer"
+            COMPANY_NAME "Mocha Conquer"
             COMPANY_COPYRIGHT "Based on code released under GPLv3 by EA"
-            ORIGINAL_FILENAME "vanillara.exe"
+            ORIGINAL_FILENAME "mochara.exe"
             RCFILE_PREFIX "VanillaRA"
             ICON "${VANILLARA_ICON}"
         )
@@ -245,8 +245,8 @@ if(BUILD_VANILLARA)
         set_source_files_properties(${VANILLARA_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
         set_target_properties(VanillaRA PROPERTIES
             MACOSX_BUNDLE True
-            MACOSX_BUNDLE_GUI_IDENTIFIER com.vanilla-conquer.vanillara
-            MACOSX_BUNDLE_BUNDLE_NAME VanillaRA
+            MACOSX_BUNDLE_GUI_IDENTIFIER com.mocha-conquer.mochara
+            MACOSX_BUNDLE_BUNDLE_NAME MochaRA
             MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
             MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
             MACOSX_BUNDLE_COPYRIGHT "Based on code released under GPLv3 by EA"
@@ -257,7 +257,7 @@ if(BUILD_VANILLARA)
     target_compile_definitions(VanillaRA PUBLIC $<$<CONFIG:Debug>:_DEBUG> ${VANILLA_DEFS})
     target_include_directories(VanillaRA PUBLIC ${CMAKE_SOURCE_DIR} .)
     target_link_libraries(VanillaRA commonv ${VANILLA_LIBS} ${STATIC_LIBS})
-    set_target_properties(VanillaRA PROPERTIES OUTPUT_NAME vanillara)
+    set_target_properties(VanillaRA PROPERTIES OUTPUT_NAME mochara)
     if(MAP_EDITORRA)
         target_compile_definitions(VanillaRA PUBLIC INTERNAL_VERSION)
     endif()

@@ -54,11 +54,11 @@ void Print_Help()
         snprintf(revision, sizeof(revision), "r%d ", GitRevision);
     }
 
-    printf("\nvanillamix %s%s%s\n\n"
+    printf("\nmochamix %s%s%s\n\n"
            "Usage:\n"
-           "  vanillamix (-c | -x) [-d <path>] [-f <file>] <mixfile>\n"
-           "  vanillamix -l <mixfile>\n"
-           "  vanillamix -h | --help\n\n"
+           "  mochamix (-c | -x) [-d <path>] [-f <file>] <mixfile>\n"
+           "  mochamix -l <mixfile>\n"
+           "  mochamix -h | --help\n\n"
            "Options:\n"
            "  -c --create     Pack loose files into a mix file.\n"
            "  -x --extract    Extract files from a mix file.\n"
