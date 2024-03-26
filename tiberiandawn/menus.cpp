@@ -508,6 +508,7 @@ int Main_Menu(unsigned int timeout)
         BUTTON_START = 100 * 2,
 #endif
         BUTTON_LOAD,
+        BUTTON_MOCHAOPTIONS,
         BUTTON_MULTI,
         BUTTON_INTRO,
         BUTTON_EXIT,
@@ -608,6 +609,15 @@ int Main_Menu(unsigned int timeout)
                              D_MULTI_W,
                              D_MULTI_H);
 #else
+
+    TextButtonClass mochaoptionsbtn(BUTTON_MOCHAOPTIONS,
+                            TXT_SPECIAL_OPTIONS,
+                            TPF_CENTER | TPF_6PT_GRAD | TPF_USE_GRAD_PAL | TPF_NOSHADOW,
+                            D_LOAD_X,
+                            starty,
+                            D_LOAD_W,
+                            D_LOAD_H);
+    starty += ystep;
 
 #ifdef NEWMENU
     TextButtonClass multibtn(BUTTON_MULTI,
@@ -720,6 +730,7 @@ int Main_Menu(unsigned int timeout)
 #endif // BONUS_MISSIONS
 
     loadbtn.Add_Tail(*commands);
+    mochaoptionsbtn.Add_Tail(*commands);
     multibtn.Add_Tail(*commands);
     introbtn.Add_Tail(*commands);
     exitbtn.Add_Tail(*commands);
@@ -741,6 +752,7 @@ int Main_Menu(unsigned int timeout)
     buttons[butt++] = &bonusbtn;
 #endif // BONUS_MISSIONS
     buttons[butt++] = &loadbtn;
+    buttons[butt++] = &mochaoptionsbtn;
     buttons[butt++] = &multibtn;
     buttons[butt++] = &introbtn;
     buttons[butt++] = &exitbtn;
@@ -875,6 +887,11 @@ int Main_Menu(unsigned int timeout)
             process = false;
             break;
 
+        case (BUTTON_MOCHAOPTIONS | KN_BUTTON):
+            retval = (input & 0x7FFF) - BUTTON_EXPAND;
+            process = false;
+            break;
+
         case (BUTTON_MULTI | KN_BUTTON):
             retval = (input & 0x7FFF) - BUTTON_EXPAND;
 #ifdef DEMO
@@ -906,11 +923,11 @@ int Main_Menu(unsigned int timeout)
 #ifdef NEWMENU
             if (expansions) {
                 if (curbutton < 0) {
-                    curbutton = 5;
+                    curbutton = 6;
                 }
             } else {
                 if (curbutton < 1) {
-                    curbutton = 5;
+                    curbutton = 6;
                 }
             }
 #else
@@ -927,7 +944,7 @@ int Main_Menu(unsigned int timeout)
             buttons[curbutton]->Flag_To_Redraw();
             curbutton++;
 #ifdef NEWMENU
-            if (curbutton > 5) {
+            if (curbutton > 6) {
                 if (expansions) {
                     curbutton = 0;
                 } else {

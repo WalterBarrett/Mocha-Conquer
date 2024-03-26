@@ -145,6 +145,10 @@ public:
     KeyNumType KeyTeam9;
     KeyNumType KeyTeam10;
 
+    HousesType ActLikeOverrideGDI;
+    HousesType ActLikeOverrideNod;
+    bool IgnoreSingleplayerTechLevel;
+
 protected:
     void Adjust_Palette(void* oldpal,
                         void* newpal,

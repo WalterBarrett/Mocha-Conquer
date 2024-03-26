@@ -560,11 +560,11 @@ void OptionsClass::Load_Settings(void)
     INIClass ini;
     ini.Load(file);
 
-#ifndef REMASTER_BUILD
     /*
     **	Read in the Options values
     */
     static char const* const OPTIONS = "Options";
+#ifndef REMASTER_BUILD
     GameSpeed = ini.Get_Int(OPTIONS, "GameSpeed", 4);
     ScrollRate = ini.Get_Int(OPTIONS, "ScrollRate", 4);
     Set_Brightness(ini.Get_Int(OPTIONS, "Brightness", 0x80));
@@ -579,7 +579,12 @@ void OptionsClass::Load_Settings(void)
     IsDeathAnnounce = ini.Get_Int(OPTIONS, "DeathAnnounce", 0);
     IsFreeScroll = ini.Get_Int(OPTIONS, "FreeScrolling", 0);
     SlowPalette = ini.Get_Int(OPTIONS, "SlowPalette", 1);
+#endif
+    ActLikeOverrideGDI = (HousesType)ini.Get_Int(OPTIONS, "ActLikeOverrideGDI", HOUSE_GOOD);
+    ActLikeOverrideNod = (HousesType)ini.Get_Int(OPTIONS, "ActLikeOverrideNod", HOUSE_BAD);
+    IgnoreSingleplayerTechLevel = ini.Get_Int(OPTIONS, "IgnoreSingleplayerTechLevel", 0);
 
+#ifndef REMASTER_BUILD
     KeyForceMove1 = (KeyNumType)ini.Get_Int(HotkeyName, "KeyForceMove1", KeyForceMove1);
     KeyForceMove2 = (KeyNumType)ini.Get_Int(HotkeyName, "KeyForceMove2", KeyForceMove2);
     KeyForceAttack1 = (KeyNumType)ini.Get_Int(HotkeyName, "KeyForceAttack1", KeyForceAttack1);
@@ -819,6 +824,7 @@ void OptionsClass::Save_Settings(void)
     **	Save Options settings
     */
     static char const* const OPTIONS = "Options";
+#ifndef REMASTER_BUILD
     ini.Put_Int(OPTIONS, "GameSpeed", GameSpeed);
     ini.Put_Int(OPTIONS, "ScrollRate", ScrollRate);
     ini.Put_Int(OPTIONS, "Brightness", Brightness);
@@ -832,7 +838,11 @@ void OptionsClass::Save_Settings(void)
     ini.Put_Int(OPTIONS, "IsScoreShuffle", IsScoreShuffle);
     ini.Put_Int(OPTIONS, "DeathAnnounce", IsDeathAnnounce);
     ini.Put_Int(OPTIONS, "FreeScrolling", IsFreeScroll);
-
+#endif
+    ini.Put_Int(OPTIONS, "ActLikeOverrideGDI", ActLikeOverrideGDI);
+    ini.Put_Int(OPTIONS, "ActLikeOverrideNod", ActLikeOverrideNod);
+    ini.Put_Int(OPTIONS, "IgnoreSingleplayerTechLevel", IgnoreSingleplayerTechLevel);
+#ifndef REMASTER_BUILD
     ini.Put_Int(HotkeyName, "KeyForceMove1", KeyForceMove1);
     ini.Put_Int(HotkeyName, "KeyForceMove2", KeyForceMove2);
     ini.Put_Int(HotkeyName, "KeyForceAttack1", KeyForceAttack1);
@@ -882,6 +892,7 @@ void OptionsClass::Save_Settings(void)
     ini.Put_Int(HotkeyName, "KeyTeam8", KeyTeam8);
     ini.Put_Int(HotkeyName, "KeyTeam9", KeyTeam9);
     ini.Put_Int(HotkeyName, "KeyTeam10", KeyTeam10);
+#endif
 
     /*
     **	Write the INI data out to a file.

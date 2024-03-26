@@ -73,6 +73,7 @@ set(TIBDAWN_SRC
     menus.cpp
     miscasm.cpp
     mission.cpp
+    mochaopt.cpp
     monoc.cpp
     mouse.cpp
     mplayer.cpp
