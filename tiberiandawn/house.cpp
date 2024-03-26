@@ -107,6 +107,7 @@
 #include "common/irandom.h"
 #include "ccini.h"
 #include "common/fixed.h"
+#include "actlike.h"
 
 /***********************************************************************************************
  * HouseClass::Validate -- validates house pointer															  *
@@ -1946,6 +1947,8 @@ void HouseClass::Read_INI(CCINIClass& ini)
                     p->Make_Ally(HOUSE_NEUTRAL);
                 }
             }
+
+            p->ActLike = RemapHouse(p->Class->House);
         }
     }
 }

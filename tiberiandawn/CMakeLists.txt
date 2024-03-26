@@ -1,6 +1,7 @@
 set(TIBDAWN_SRC
     aadata.cpp
     abstract.cpp
+    actlike.cpp
     adata.cpp
     aircraft.cpp
     anim.cpp
