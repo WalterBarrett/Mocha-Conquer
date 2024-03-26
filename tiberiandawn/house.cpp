@@ -723,6 +723,10 @@ bool HouseClass::Can_Build(TechnoTypeClass const* type, HousesType house) const
 
     if (Debug_Cheat)
         level = 98;
+
+    if (GameToPlay == GAME_NORMAL && Options.IgnoreSingleplayerTechLevel) {
+        level = 98;
+    }
     return ((pre & flags) == pre && type->Scenario <= level);
 }
 
